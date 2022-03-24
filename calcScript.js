@@ -17,20 +17,50 @@ class Calculator { //created class to take care of each instance of calculator
     }
 
     appendNum(number) { //Will append number to what has been put in
-        this.currentOperand = number;
-
+        if(number == '.' && this.currentOperand.includes('.')) return; 
+        //if number is a period and period already exists it will stop the function from executing
+        this.currentOperand = this.currentOperand.toString() + number.toString();
     }
 
-    choosenOp (operation) { //will be the choosen Operation by the user
-
+    chooseOp (operation) { //will be the choosen Operation by the user
+        if(this.currentOperand === '') return; //if current is null then it won't let function run
+        if(this.prevOperand !== '') { //if its not an empty string compute what has been inputted already
+            this.compute();
+        }
+        this.operation = operation;
+        this.prevOperand = this.currentOperand;
+        this.currentOperand = '';
     }
 
     compute() { //Will compute expression enter by user
-
+        let calculation;
+        const prev = parseFloat(this.prevOperand);
+        const current = parseFloat(this.currentOperand);
+        if(isNaN(prev) || isNaN(current)) return;
+        switch (this.operation) {
+            case '+':
+                calculation = prev + current;
+                break;
+            case '-':
+                calculation = prev - current;
+                break;
+            case '*':
+                calculation = prev * current;
+                break;
+            case '÷':
+                calculation = prev / current;
+                break; 
+            default:
+                return;       
+        }
+        this.currentOperand = calculation;
+        this.operation = undefined;
+        this.prevOperand = '';
     }
 
     updateDisplay() { //Will update display, whether number, operation was entered or was cleared
         this.currentOpTextElement.innerText = this.currentOperand;
+        this.prevOpTextElement.innerText = this.prevOperand;
     }
 }
 
@@ -50,4 +80,16 @@ numBtns.forEach(button => {
         calculator.appendNum(button.innerText);
         calculator.updateDisplay();
     });
+});
+
+opBtns.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.chooseOp(button.innerText);
+        calculator.updateDisplay();
+    });
+});
+
+equalsBtn.addEventListener('click', button => {
+    calculator.compute();
+    calculator.updateDisplay();
 });
