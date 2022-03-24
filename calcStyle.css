@@ -1,22 +1,58 @@
+*, *::before, *::after { /* this will apply styling to all elements before or after they are created */
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium';
+    font-weight: normal;
+}
+
 body {
-    background-color: aqua;
+    padding: 0;
+    margin: 0;
+    background: aqua;
 }
 
-.main-container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   padding: 200px;
-   gap: 10px;
-   
+.calc-output {
+    grid-column: 1 / -1; /*expands the grid item from first column to last*/
+    background-color: rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 12px;
+    word-wrap: break-word; /*breaks the word in the middle and not just the end of it */
+    word-break: break-all; /* this will break all words and wrap to next line */
 }
 
-.calc-display {
-    
-    border: 5px solid black;
+.calc-output .operand-prev{
+    color: rgba(255, 255, 255, .75);
+    font-size: 1.5rem;
+}
+
+.calc-output .operand-current {
+    color: white;
+    font-size: 2.5rem;
 }
 
 .calc-grid {
-    border: 5px solid black;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    min-height: 100vh; /* this will fill 100% of the height all the time */
+    grid-template-columns: repeat(4, 100px); /* repeat 4 columns, 100px wide*/
+    grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+}
 
+.calc-grid > button { /* selects all buttons that are inside the calc-grid div*/
+    cursor: pointer;
+    font-size: 2rem;
+    border: 1px solid white;
+    outline: none;
+    background-color: rgba(255, 255, 255, .75);
+}
+
+.calc-grid > button:hover {
+    background-color: rgba(255, 255, 255, .90);
+}
+
+.double-size {
+    grid-column: span 2;
 }
