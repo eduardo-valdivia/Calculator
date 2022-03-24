@@ -13,7 +13,7 @@ class Calculator { //created class to take care of each instance of calculator
     }
 
     delete() { // will delete numbers or operations insert by mistake
-
+        this.currentOperand = this.currentOperand.toString().slice(0, -1);
     }
 
     appendNum(number) { //Will append number to what has been put in
@@ -58,9 +58,32 @@ class Calculator { //created class to take care of each instance of calculator
         this.prevOperand = '';
     }
 
+    getDisplayNum (number) {
+        const strNum = number.toString();
+        const intDigits = parseFloat(strNum.split('.')[0]);
+        const decDigits = strNum.split('.')[1];
+        let intDisplay;
+        if(isNaN(intDigits)) {
+            intDisplay = '';
+        } else {
+            intDisplay = intDigits.toLocaleString('en', {maximumFractionDigits: 0});
+        }
+        if(decDigits != null) {
+            return `${intDisplay}.${decDigits}`;
+        } else {
+            return intDisplay;
+        }
+    };
+
+
     updateDisplay() { //Will update display, whether number, operation was entered or was cleared
-        this.currentOpTextElement.innerText = this.currentOperand;
-        this.prevOpTextElement.innerText = this.prevOperand;
+        this.currentOpTextElement.innerText = this.getDisplayNum(this.currentOperand);
+        if(this.operation != null) {
+            this.prevOpTextElement.innerText = `${this.getDisplayNum(this.prevOperand)} ${this.operation}`;
+        } else {
+            this.prevOpTextElement.innerText = '';
+        }
+        
     }
 }
 
@@ -91,5 +114,15 @@ opBtns.forEach(button => {
 
 equalsBtn.addEventListener('click', button => {
     calculator.compute();
+    calculator.updateDisplay();
+});
+
+clearBtn.addEventListener('click', button => {
+    calculator.clear();
+    calculator.updateDisplay();
+});
+
+deleteBtn.addEventListener('click', button => {
+    calculator.delete();
     calculator.updateDisplay();
 });
