@@ -1,0 +1,22 @@
+body {
+    background-color: aqua;
+}
+
+.main-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 200px;
+   gap: 10px;
+   
+}
+
+.calc-display {
+    
+    border: 5px solid black;
+}
+
+.calc-grid {
+    border: 5px solid black;
+
+}
